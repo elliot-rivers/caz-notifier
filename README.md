@@ -8,6 +8,8 @@ it'll check for CAZ requests every 15 seconds and push you desktop notifications
 
 click the notification and it'll open up the review website
 
+kill it with ctrl-c
+
 acknowledged deficiencies:
 * i'm not great a ruby
     * but this was an opportunity to learn some more stuff

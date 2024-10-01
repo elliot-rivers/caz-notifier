@@ -32,6 +32,15 @@ module Caz
       active_notifications[id] = review
     end
 
+    def alert(message, subtitle)
+      TerminalNotifier.notify(
+        message,
+        {
+          subtitle: subtitle
+        }
+      )
+    end
+
     def garbage_collect(reviews)
       ids = reviews.map { |r| r['reviewId'] }
       orphans = active_notifications.keys.to_set - ids.to_set

@@ -9,6 +9,7 @@ module Caz
     end
 
     def run
+      notifier.alert('wooooooohoooooo', 'Starting up CAZ notifier')
       while true
         begin
           # one monitor per mwinit
@@ -21,6 +22,7 @@ module Caz
             sleep check_interval
           end
         rescue Caz::MWInitFailure
+          notifier.alert('Check your Midway posture!', 'You need to rerun mwinit -- check the terminal for more info')
           puts "Looks like you aren't Midway authenticated -- run `mwinit` somewhere and come back here"
           puts "press <return> after you've run mwinit"
           gets
