@@ -17,5 +17,7 @@ acknowledged deficiencies:
     * mostly i couldn't figure out cookies
 * I probably don't cover every edge-case for error handling
 * no tests
+* no gemspec
+* no rake anything nor other perhaps canonical infrastructure
 
 submit a PR if you have issues
