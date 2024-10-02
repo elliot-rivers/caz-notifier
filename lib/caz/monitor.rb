@@ -37,7 +37,10 @@ module Caz
       raise MWInitFailure, 'You are not authenticated with mwinit -f' if raw.include? 'You did not present a posture cookie'
 
       regex = /CSRF-TOKEN\t(.*)\n/
-      regex.match(raw)[1]
+      match = regex.match(raw)
+      raise MWInitFailure, 'You are not authenticated with mwinit' unless match
+
+      match[1]
     end
   end
 end
