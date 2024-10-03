@@ -39,7 +39,7 @@ Make sure the toggle is turned on and the type of notifications you want to see 
 
 # acknowledged deficiencies
 * the Chirp CAZ team is hard-coded in there so this is not a general tool
-* i'm not great a ruby
+* i'm not great at ruby
     * but this was an opportunity to learn some more stuff
 * i have tried to limit the garbage but it may fill your notification center with nonsense
 * uses system calls to `curl` instead of native ruby http requests library (see bullet 1)
