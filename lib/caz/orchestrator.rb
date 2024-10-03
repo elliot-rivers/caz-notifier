@@ -3,9 +3,10 @@ require 'terminal-notifier'
 
 module Caz
   class Orchestrator
-    def initialize(check_interval: 15)
+    def initialize(check_interval: 15, region: 'us-east-1', ignore_username: nil)
       @check_interval = check_interval
-      @notifier = Notifier.new
+      @region = region
+      @notifier = Notifier.new(ignore_username: ignore_username)
     end
 
     def run
@@ -13,7 +14,7 @@ module Caz
       while true
         begin
           # one monitor per mwinit
-          monitor = Monitor.new
+          monitor = Monitor.new(region: region)
 
           while true
             reviews = monitor.check_for_reviews
@@ -30,7 +31,7 @@ module Caz
       end
     end
 
-    attr_reader :notifier, :check_interval
+    attr_reader :notifier, :check_interval, :region, :ignore_username
 
     protected
   end

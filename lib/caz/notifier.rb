@@ -3,10 +3,10 @@ require 'terminal-notifier'
 
 module Caz
   class Notifier
-
-    def initialize
+    def initialize(ignore_username: nil)
       # an attempt to auto-close notifications that are no longer applicable
       @active_notifications = {}
+      @ignore_username = ignore_username
     end
 
     def alert_for_reviews(reviews)
@@ -21,6 +21,9 @@ module Caz
 
     def create_notification(review)
       id = review['reviewId']
+      active_notifications[id] = review
+      return if review['requester'] == ignore_username
+
       TerminalNotifier.remove(id)
       TerminalNotifier.notify(
         "#{review['requester']} needs your help!",
@@ -29,7 +32,6 @@ module Caz
           open: "https://consensus.a2z.com/reviews/#{id}"
         }
       )
-      active_notifications[id] = review
     end
 
     def alert(message, subtitle)
@@ -45,11 +47,17 @@ module Caz
       ids = reviews.map { |r| r['reviewId'] }
       orphans = active_notifications.keys.to_set - ids.to_set
       orphans.each do |yeet|
+        if active_notifications[yeet]['requester'] == ignore_username
+          TerminalNotifier.notify(
+            'Your review has been approved!',
+            {subtitle: 'WOOOOOOOooooooHOOOooooo!'}
+          )
+        end
         active_notifications.delete yeet
         TerminalNotifier.remove yeet
       end
     end
 
-    attr_reader :active_notifications
+    attr_reader :active_notifications, :ignore_username
   end
 end
