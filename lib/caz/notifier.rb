@@ -16,7 +16,7 @@ module Caz
       reviews.each do |review|
         create_notification review
       end
-      puts "notified for #{reviews.length} reviews"
+      puts "notified for #{reviews.length} reviews" unless reviews.empty?
     end
 
     def create_notification(review)
@@ -48,10 +48,7 @@ module Caz
       orphans = active_notifications.keys.to_set - ids.to_set
       orphans.each do |yeet|
         if active_notifications[yeet]['requester'] == ignore_username
-          TerminalNotifier.notify(
-            'Your review has been approved!',
-            {subtitle: 'WOOOOOOOooooooHOOOooooo!'}
-          )
+          alert('Your review has been approved!', 'WOOOOOOOooooooHOOOooooo!')
         end
         active_notifications.delete yeet
         TerminalNotifier.remove yeet

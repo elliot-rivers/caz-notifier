@@ -15,12 +15,23 @@ module Caz
         begin
           # one monitor per mwinit
           monitor = Monitor.new(region: region)
+          failure_counter = 0
+          puts "OKAY! We're monitoring..."
 
           while true
-            reviews = monitor.check_for_reviews
-            notifier.alert_for_reviews reviews
+            begin
+              reviews = monitor.check_for_reviews
+              notifier.alert_for_reviews reviews
 
-            sleep check_interval
+              sleep check_interval
+            rescue Caz::MWInitFailure
+              failure_counter += 1
+              if failure_counter < 4
+                puts "monitor failure #{failure_counter}/3!"
+              else
+                raise
+              end
+            end
           end
         rescue Caz::MWInitFailure
           notifier.alert('Check your Midway posture!', 'You need to rerun mwinit -- check the terminal for more info')
